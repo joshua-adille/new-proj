@@ -35,6 +35,9 @@
                 <button class="btn">
                     <span class="btn-text">No Thanks..</span>
                 </button>
+                <button id="extra-button" class="button type1 hidden">
+                    <span class="btn-txt">No +1</span>
+                </button>
             </div>
         </div>
 
@@ -42,6 +45,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
+        document.getElementById("extra-button").addEventListener("click", () => {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        });
         const noButton = document.getElementById("no-button");
         let escapeAttempts = 0;
         const maxAttempts = 4;
@@ -57,11 +63,23 @@
             noButton.addEventListener(el, function (event) {
                 if (escapeAttempts >= maxAttempts) {
                     noButton.classList.add('disabled');
+                    const extraButton = document.getElementById("extra-button");
+                    extraButton.classList.remove('hidden');
+                    noButton.style.width = "250px"
                     return;
                 }
                 escapeAttempts++;
-                const top = getRandomNumber(window.innerHeight - this.offsetHeight);
-                const left = getRandomNumber(window.innerWidth - this.offsetWidth);
+                const container = document.querySelector('.container');
+                const containerRect = container.getBoundingClientRect();
+                const buttonRect = this.getBoundingClientRect();
+
+                const minTop = containerRect.top + 4 * 16; // 4rem in pixels
+                const minLeft = containerRect.left + 4 * 16; // 4rem in pixels
+                const maxTop = containerRect.bottom - buttonRect.height - 4 * 16;
+                const maxLeft = containerRect.right - buttonRect.width - 4 * 16;
+
+                const top = getRandomNumber(maxTop - minTop) + minTop;
+                const left = getRandomNumber(maxLeft - minLeft) + minLeft;
 
                 animateMove(this, "left", left).play();
                 animateMove(this, "top", top).play();

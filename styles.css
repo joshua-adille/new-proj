@@ -41,7 +41,7 @@ p {
 }
 
 .text-display {
-  font-size: 5rem;
+  font-size: 6.5rem;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1.5rem;
@@ -167,7 +167,7 @@ p {
 /* Responsive Text */
 @media (max-width: 768px) {
   .text-display {
-    font-size: 2rem;
+    font-size: 4rem;
   }
 
   .text-heading {
@@ -181,6 +181,10 @@ p {
   .text-body {
     font-size: 1rem;
   }
+}
+
+.hidden {
+  display: none;
 }
 
 /* Utility Classes */
@@ -259,12 +263,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus States */
-*:focus {
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
-}
-
 /* Print Styles */
 @media print {
   body {
@@ -288,11 +286,13 @@ html {
   justify-content: center;
   align-items: center;
   margin-bottom: 46px;
-  height: 600px;
+  height: 450px;
+  max-width: 640px;
 }
 
 .title {
   font-family: "Dancing Script", cursive;
+  margin-top: 0;
 }
 
 .header {
@@ -308,16 +308,26 @@ html {
 
 #yes-button {
   position: absolute;
-  left: 35%;
+  left: 40%;
   transform: translate(-50%, -50%);
   z-index: 1000;
 }
 
 #no-button {
   position: absolute;
-  left: 65%;
+  left: 60%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+}
+
+@media (max-width: 995px) {
+  #yes-button {
+    left: 28% !important;
+  }
+
+  #no-button {
+    left: 72% !important;
+  }
 }
 
 /* Button style */
@@ -789,4 +799,49 @@ html {
 
 .dark .scalloped {
   background: #1a0505;
+}
+.button {
+  height: 50px;
+  width: 200px;
+  position: relative;
+  background-color: #fff;
+  cursor: pointer;
+  border: 2px solid #252525;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #333;
+  transition: all 0.5s ease-in-out;
+  margin-left: 8px;
+}
+
+.btn-txt {
+  z-index: 1;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.type1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.5s ease-in-out;
+  background-color: #333 !important;
+  border-radius: 30px;
+  visibility: hidden;
+  height: 10px;
+  width: 10px;
+  z-index: -1;
+}
+
+.button:hover {
+  box-shadow: 1px 1px 200px #252525;
+  background-color: #333 !important;
+  color: #fff;
+  border: none;
+}
+
+.type1:hover::after {
+  visibility: visible;
+  transform: scale(100) translateX(2px);
 }
