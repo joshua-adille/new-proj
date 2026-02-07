@@ -6,15 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not a Scam 100%</title>
     <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&family=Material+Icons&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-
-    <div class="container">
-        <h1 class="title text-display">Happy Valentine's Day!</h1>
+    <div class="heart-container" id="heart-container"></div>
+    <div class="container scalloped">
+        <h1 class="title text-display gold-text">Happy Valentine's Day!</h1>
         <h2 class="header text-subheading">Wanna go out sometime next week? Preferably Sat 😅</h2>
+
         <div class="button-choices">
-            <div class="btn-container yes-button">
+
+            <div id="yes-button" class="btn-container">
                 <div class="btn-drawer transition-top">Really?</div>
                 <div class="btn-drawer transition-bottom">Lesgooo!!</div>
 
@@ -23,7 +28,7 @@
                 </button>
             </div>
 
-            <div class="btn-container no-button">
+            <div id="no-button" class="btn-container">
                 <div class="btn-drawer transition-top">Awww...</div>
                 <div class="btn-drawer transition-bottom">Booo!!</div>
 
@@ -35,54 +40,56 @@
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
-        const noThanksBtn = document.querySelector('.no-button');
+        const noButton = document.getElementById("no-button");
         let escapeAttempts = 0;
         const maxAttempts = 4;
 
-        function getRandomPosition() {
-            const container = document.querySelector('.button-choices');
-            const containerRect = container.getBoundingClientRect();
+        const animateMove = (element, prop, pixels) =>
+            anime({
+                targets: element,
+                [prop]: `${pixels}px`,
+                easing: "easeOutCirc"
+            });
 
-            const btnRect = noThanksBtn.getBoundingClientRect();
-            const btnWidth = btnRect.width;
-            const btnHeight = btnRect.height;
+        ["click"].forEach(function (el) {
+            noButton.addEventListener(el, function (event) {
+                if (escapeAttempts >= maxAttempts) {
+                    noButton.classList.add('disabled');
+                    return;
+                }
+                escapeAttempts++;
+                const top = getRandomNumber(window.innerHeight - this.offsetHeight);
+                const left = getRandomNumber(window.innerWidth - this.offsetWidth);
 
-            const minX = containerRect.left + btnWidth;
-            const maxX = containerRect.right - btnWidth;
-            const minY = containerRect.top + btnHeight;
-            const maxY = containerRect.bottom - btnHeight;
-
-            return {
-                x: Math.random() * (maxX - minX) + minX,
-                y: Math.random() * (maxY - minY) + minY
-            };
-        }
-
-        function escape() {
-            if (escapeAttempts >= maxAttempts) {
-                noThanksBtn.classList.add('disabled');
-                return;
-            }
-
-            const newPosition = getRandomPosition();
-
-            noThanksBtn.style.position = 'absolute';
-            noThanksBtn.style.left = newPosition.x + 'px';
-            noThanksBtn.style.top = newPosition.y + 'px';
-
-            escapeAttempts++;
-
-            noThanksBtn.classList.add('escaping');
-            setTimeout(() => {
-                noThanksBtn.classList.remove('escaping');
-            }, 300);
-        }
-
-        noThanksBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            escape();
+                animateMove(this, "left", left).play();
+                animateMove(this, "top", top).play();
+            });
         });
+
+        const getRandomNumber = (num) => {
+            return Math.floor(Math.random() * (num + 1));
+        };
+
+        // Floating hearts
+        const container = document.getElementById('heart-container');
+        const hearts = ['favorite', 'favorite_border'];
+
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.className = 'material-icons floating-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            heart.style.bottom = '-40px';
+            heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            container.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        setInterval(createHeart, 300);
     </script>
 </body>
 

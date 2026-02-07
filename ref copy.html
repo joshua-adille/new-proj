@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine's Invite</title>
+
+    <!-- Fonts & Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&family=Material+Icons&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #dc2626;
+            --bg-light: #fee2e2;
+            --bg-dark: #450a0a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #f472b6, #ef4444, #f43f5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .dark body {
+            background: linear-gradient(135deg, #450a0a, #7f1d1d, #4c0519);
+        }
+
+        /* ===== Layout ===== */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 640px;
+            text-align: center;
+        }
+
+        /* ===== Scalloped Card ===== */
+        .scalloped {
+            --r: 20px;
+            --s: 40px;
+            background: white;
+            padding: 4rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease;
+            mask:
+                radial-gradient(var(--r) at var(--r) 50%, #000 98%, transparent 101%) 0 calc(50% - var(--s)/2)/100% var(--s),
+                radial-gradient(var(--r) at 50% var(--r), #000 98%, transparent 101%) calc(50% - var(--s)/2) 0/var(--s) 100%,
+                radial-gradient(var(--r) at calc(100% - var(--r)) 50%, #000 98%, transparent 101%) 100% calc(50% - var(--s)/2)/100% var(--s),
+                radial-gradient(var(--r) at 50% calc(100% - var(--r)), #000 98%, transparent 101%) calc(50% - var(--s)/2) 100%/var(--s) 100%,
+                linear-gradient(#000 0 0) center/calc(100% - 2*var(--r)) calc(100% - 2*var(--r)) no-repeat;
+        }
+
+        .scalloped:hover {
+            transform: scale(1.02);
+        }
+
+        .dark .scalloped {
+            background: #1a0505;
+        }
+
+        /* ===== Typography ===== */
+        h1 {
+            font-family: "Great Vibes", cursive;
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 2rem;
+        }
+
+        .gold-text {
+            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .subtitle {
+            font-family: "Playfair Display", serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #881337;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .dark .subtitle {
+            color: #ffe4e6;
+        }
+
+        /* ===== Buttons ===== */
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: none;
+            font-family: "Playfair Display", serif;
+            font-size: 1rem;
+            color: #fb7185;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(251, 113, 133, 0.1);
+        }
+
+        /* ===== Floating Hearts ===== */
+        .heart-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20%,
+            80% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Modal ===== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 50;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-card {
+            transform: scale(1);
+        }
+
+        .dark .modal-card {
+            background: #18181b;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heart-container" id="heart-container"></div>
+
+    <div class="container">
+        <div class="scalloped">
+            <h1 class="gold-text">Happy Valentine's Day!</h1>
+
+            <p class="subtitle">
+                Wanna go out sometime next week?<br />
+                <strong>Preferably Sat 🤩</strong>
+            </p>
+
+            <div class="buttons">
+                <button class="btn-primary" onclick="handleResponse('yes')">
+                    <span class="material-icons">favorite</span>
+                    Yes!
+                </button>
+
+                <button class="btn-secondary" onclick="handleResponse('no')">
+                    No Thanks...
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-card">
+            <span class="material-icons" style="font-size:4rem;color:#dc2626;">celebration</span>
+            <h2>It's a Date!</h2>
+            <p>Can't wait to see you next Saturday! ❤️</p>
+            <button class="btn-secondary" onclick="closeModal()">Yay!</button>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Floating hearts
+        const container = document.getElementById('heart-container');
+        const hearts = ['favorite', 'favorite_border'];
+
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.className = 'material-icons floating-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            heart.style.bottom = '-40px';
+            heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            container.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        setInterval(createHeart, 300);
+
+        function handleResponse(choice) {
+            if (choice === 'yes') {
+                document.getElementById('success-modal').classList.add('active');
+            } else {
+                alert("Aww, maybe next time! ❤️");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

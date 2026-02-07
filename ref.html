@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Valentine's Invite - Romantic Variant</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;600&amp;family=Material+Icons&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#dc2626", // Bright Red
+                        "background-light": "#fee2e2", // Very light pink
+                        "background-dark": "#450a0a", // Deep maroon
+                    },
+                    fontFamily: {
+                        display: ["'Great Vibes'", "cursive"],
+                        serif: ["'Playfair Display'", "serif"],
+                        sans: ["'Inter'", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .scalloped {
+            --r: 20px;
+            --s: 40px;
+            background: #ffffff;
+            mask:
+                radial-gradient(var(--r) at var(--r) 50%, #000 98%, #0000 101%) 0 calc(50% - var(--s)/2)/100% var(--s),
+                radial-gradient(var(--r) at 50% var(--r), #000 98%, #0000 101%) calc(50% - var(--s)/2) 0/var(--s) 100%,
+                radial-gradient(var(--r) at calc(100% - var(--r)) 50%, #000 98%, #0000 101%) 100% calc(50% - var(--s)/2)/100% var(--s),
+                radial-gradient(var(--r) at 50% calc(100% - var(--r)), #000 98%, #0000 101%) calc(50% - var(--s)/2) 100%/var(--s) 100%,
+                linear-gradient(#000 0 0) center/calc(100% - 2*var(--r)) calc(100% - 2*var(--r)) no-repeat;
+        }
+
+        .dark .scalloped {
+            background: #1a0505;
+        }
+
+        .gold-text {
+            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.4;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen overflow-hidden font-sans bg-gradient-to-br from-pink-400 via-red-500 to-rose-600 dark:from-red-950 dark:via-red-900 dark:to-rose-950 flex items-center justify-center p-4">
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="heart-container">
+    </div>
+    <div class="relative z-10 w-full max-w-2xl text-center">
+        <div class="scalloped p-16 shadow-2xl transition-all duration-500 transform hover:scale-[1.02]">
+            <h1 class="font-display text-6xl md:text-8xl gold-text mb-8">
+                Happy Valentine's Day!
+            </h1>
+            <p class="font-serif text-xl md:text-2xl text-rose-900 dark:text-rose-100 mb-12 leading-relaxed italic">
+                Wanna go out sometime next week?<br />
+                <span class="font-bold">Preferably Sat 🤩</span>
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button
+                    class="group relative flex items-center justify-center gap-3 bg-primary text-white text-2xl font-bold py-4 px-10 rounded-full btn-hover-effect transition-all active:scale-95 shadow-lg"
+                    onclick="handleResponse('yes')">
+                    <span class="material-icons text-3xl group-hover:scale-125 transition-transform">favorite</span>
+                    Yes!
+                </button>
+                <button
+                    class="text-rose-400 dark:text-rose-300 font-serif text-lg py-2 px-6 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-colors"
+                    onclick="handleResponse('no')">
+                    No Thanks...
+                </button>
+            </div>
+        </div>
+        <div class="mt-8 flex justify-center gap-4 text-white/50">
+            <span class="material-icons animate-pulse">favorite</span>
+            <span class="material-icons animate-pulse" style="animation-delay: 0.2s">favorite</span>
+            <span class="material-icons animate-pulse" style="animation-delay: 0.4s">favorite</span>
+        </div>
+    </div>
+    <div class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+        id="success-modal">
+        <div class="bg-white dark:bg-zinc-900 p-10 rounded-3xl max-w-md w-full text-center shadow-2xl scale-0 transition-transform duration-300"
+            id="modal-card">
+            <span class="material-icons text-primary text-7xl mb-4">celebration</span>
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-4">It's a Date!</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-8">Can't wait to see you next Saturday! I'll text you the
+                details. ❤️</p>
+            <button
+                class="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 py-3 px-8 rounded-full font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                onclick="closeModal()">
+                Yay!
+            </button>
+        </div>
+    </div>
+    <script>
+        // Generate floating hearts
+        const container = document.getElementById('heart-container');
+        const heartIcons = ['favorite', 'favorite_border', 'favorite'];
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.classList.add('material-icons', 'floating-heart', 'text-white');
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            const size = Math.random() * (40 - 15) + 15;
+            heart.style.fontSize = `${size}px`;
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.bottom = `-50px`;
+            heart.style.animationDuration = `${Math.random() * (8 - 4) + 4}s`;
+            container.appendChild(heart);
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+        setInterval(createHeart, 300);
+        // Interaction logic
+        function handleResponse(choice) {
+            if (choice === 'yes') {
+                const modal = document.getElementById('success-modal');
+                const card = document.getElementById('modal-card');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    card.classList.remove('scale-0');
+                    card.classList.add('scale-100');
+                }, 10);
+            } else {
+                alert("Aww, maybe next time! ❤️");
+            }
+        }
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            const card = document.getElementById('modal-card');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+        // Toggle Dark Mode based on system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+</body>
+
+</html>
