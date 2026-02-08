@@ -302,6 +302,7 @@ html {
 .header {
   font-family: "Emilys Candy", serif;
   margin-top: 0;
+  text-align: center;
 }
 
 .button-choices {
@@ -735,16 +736,8 @@ html {
   z-index: 0;
 }
 
-/* ===== Floating Hearts ===== */
-.heart-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.floating-heart {
+.floating-heart,
+.floating-fire {
   position: absolute;
   opacity: 0.3;
   animation: float 6s ease-in-out infinite;
@@ -795,10 +788,6 @@ html {
       calc(50% - var(--s) / 2) 100% / var(--s) 100%,
     linear-gradient(#000 0 0) center/calc(100% - 2 * var(--r))
       calc(100% - 2 * var(--r)) no-repeat;
-}
-
-.scalloped:hover {
-  /* transform: scale(1.02); */
 }
 
 .dark .scalloped {
@@ -919,4 +908,10 @@ html {
 
 .modal-card p {
   margin: 0;
+}
+
+.ps-section {
+  font-size: 0.8rem;
+  color: #818181;
+  margin-top: 1rem;
 }

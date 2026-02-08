@@ -14,7 +14,7 @@
 <body>
     <div class="heart-container" id="heart-container"></div>
     <div class="container scalloped">
-        <h1 class="title text-display gold-text">Happy Valentine's Day!</h1>
+        <h1 class="title text-display gold-text">Christeel Happy Valentine's Day!</h1>
         <h2 class="header text-subheading">Wanna go out sometime next week? Preferably Sat 😅</h2>
 
         <div class="button-choices">
@@ -58,7 +58,8 @@
             </div>
 
             <p>See you next Saturday! ❤️ (or any other day you prefer)</p>
-            <button class="btn-secondary" onclick="closeModal()">Lesgoo!</button>
+            <p class="ps-section">P.S. - Pa inform nalang din ulit ako sa answer mo hahaha 😆</p>
+            <button class="btn-secondary" onclick="createFireEmoticon()">Lesgoo!</button>
         </div>
     </div>
 
@@ -79,7 +80,7 @@
             });
 
         const MIN_DISTANCE = 100; // pixels – tweak this
-        const EDGE_PADDING_REM = 5;
+        const EDGE_PADDING_REM = 8;
         const REM_IN_PX = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const EDGE_PADDING = EDGE_PADDING_REM * REM_IN_PX;
 
@@ -164,8 +165,19 @@
             }
         }
 
-        function closeModal() {
-            document.getElementById('success-modal').classList.remove('active');
+        function createFireEmoticon() {
+            const fireContainer = document.getElementById('success-modal');
+            const fire = document.createElement('span');
+            fire.className = 'material-icons floating-fire';
+            fire.textContent = '🔥';
+            fire.style.left = Math.random() * 100 + '%';
+            fire.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            fire.style.bottom = '-40px';
+            fire.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            fire.style.color = '#ff6b6b';
+            fireContainer.appendChild(fire);
+
+            // setTimeout(() => fire.remove(), 8000);
         }
     </script>
 </body>
