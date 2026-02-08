@@ -23,14 +23,14 @@
                 <div class="btn-drawer transition-top">Really?</div>
                 <div class="btn-drawer transition-bottom">Lesgooo!!</div>
 
-                <button class="btn">
+                <button class="btn" onclick="handleResponse('yes')">
                     <span class="btn-text">Sure!</span>
                 </button>
             </div>
 
             <div id="no-button" class="btn-container">
-                <div class="btn-drawer transition-top">Awww...</div>
-                <div class="btn-drawer transition-bottom">Booo!!</div>
+                <div class="btn-drawer no transition-top">Awww...</div>
+                <div class="btn-drawer no transition-bottom">Booo!!</div>
 
                 <button class="btn">
                     <span class="btn-text">No Thanks..</span>
@@ -41,6 +41,25 @@
             </div>
         </div>
 
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-card">
+            <div class="tenor-gif-embed" data-postid="17498744034444290732" data-share-method="host"
+                data-aspect-ratio="1" data-width="100%"><a
+                    href="https://tenor.com/view/happy-happy-happy-happy-happy-happy-cat-jumping-happy-cat-gif-17498744034444290732">Happy
+                    Happy Happy Happy Sticker</a>from <a href="https://tenor.com/search/happy-stickers">Happy
+                    Stickers</a></div>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+            <div class="modal-header">
+                <span class="material-icons" style="font-size:4rem;color:#dc2626;">celebration</span>
+                <h2>Aight issa Date!</h2>
+            </div>
+
+            <p>See you next Saturday! ❤️ (or any other day you prefer)</p>
+            <button class="btn-secondary" onclick="closeModal()">Lesgoo!</button>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -59,27 +78,55 @@
                 easing: "easeOutCirc"
             });
 
+        const MIN_DISTANCE = 100; // pixels – tweak this
+        const EDGE_PADDING_REM = 5;
+        const REM_IN_PX = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const EDGE_PADDING = EDGE_PADDING_REM * REM_IN_PX;
+
         ["click"].forEach(function (el) {
             noButton.addEventListener(el, function (event) {
                 if (escapeAttempts >= maxAttempts) {
                     noButton.classList.add('disabled');
                     const extraButton = document.getElementById("extra-button");
+                    const rightDrawerTop = document.querySelector(".transition-top.no");
+                    const rightDrawerBottom = document.querySelector(".transition-bottom.no");
+                    rightDrawerBottom.style.margin = "0 85px 0 0 ";
+                    rightDrawerTop.innerHTML = "Aiight"
+                    rightDrawerBottom.innerHTML = "Understandable"
                     extraButton.classList.remove('hidden');
                     noButton.style.width = "250px"
                     return;
                 }
+
                 escapeAttempts++;
+
                 const container = document.querySelector('.container');
                 const containerRect = container.getBoundingClientRect();
                 const buttonRect = this.getBoundingClientRect();
 
-                const minTop = containerRect.top + 4 * 16; // 4rem in pixels
-                const minLeft = containerRect.left + 4 * 16; // 4rem in pixels
-                const maxTop = containerRect.bottom - buttonRect.height - 4 * 16;
-                const maxLeft = containerRect.right - buttonRect.width - 4 * 16;
+                const minTop =
+                    containerRect.top + EDGE_PADDING;
 
-                const top = getRandomNumber(maxTop - minTop) + minTop;
-                const left = getRandomNumber(maxLeft - minLeft) + minLeft;
+                const minLeft =
+                    containerRect.left + EDGE_PADDING;
+
+                const maxTop =
+                    containerRect.bottom - buttonRect.height - EDGE_PADDING;
+
+                const maxLeft =
+                    containerRect.right - buttonRect.width - EDGE_PADDING;
+
+                const currentX = buttonRect.left;
+                const currentY = buttonRect.top;
+
+                let left, top, distance;
+
+                do {
+                    top = getRandomNumber(maxTop - minTop) + minTop;
+                    left = getRandomNumber(maxLeft - minLeft) + minLeft;
+
+                    distance = Math.hypot(left - currentX, top - currentY);
+                } while (distance < MIN_DISTANCE);
 
                 animateMove(this, "left", left).play();
                 animateMove(this, "top", top).play();
@@ -108,6 +155,18 @@
         }
 
         setInterval(createHeart, 300);
+
+        function handleResponse(choice) {
+            if (choice === 'yes') {
+                document.getElementById('success-modal').classList.add('active');
+            } else {
+                alert("Aww, maybe next time! ❤️");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.remove('active');
+        }
     </script>
 </body>
 
