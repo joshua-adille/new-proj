@@ -13,6 +13,13 @@
 </head>
 
 <body>
+    <div id="valentine-loader">
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <div class="heart-container" id="heart-container"></div>
     <div class="container scalloped">
         <h1 class="title text-display gold-text">Christeel Happy Valentine's Day!</h1>
@@ -66,6 +73,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document
+                    .getElementById("valentine-loader")
+                    .classList.add("hidden");
+            }, 3000);
+        });
         document.getElementById("extra-button").addEventListener("click", () => {
             window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
         });
